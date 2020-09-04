@@ -1,0 +1,33 @@
+version: "3.3"
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:10.0.2
+    volumes:
+      - /home/<CHANGE THIS ACCORDINGLY>/docker-data/keycloak-config/standalone.xml:/opt/jboss/keycloak/standalone/configuration/standalone.xml
+      - /home/<CHANGE THIS ACCORDINGLY>/docker-data/keycloak-deps/postgresql:/opt/jboss/keycloak/modules/system/layers/keycloak/org/postgresql
+    ports:
+      - "8080:8080"
+      - "443:443"
+    environment:
+      - PROXY_ADDRESS_FORWARDING=true
+      - KEYCLOAK_USER=pleasealterthisuser
+      - KEYCLOAK_PASSWORD=pleasealterthispassword
+      - DB_ADDR=postgres
+      - DB_USER=changethisuser
+      - DB_PASSWORD=changethispassword
+      - DB_VENDOR=POSTGRES
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:9.4
+    ports: 
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=changethisuser
+      - POSTGRES_PASSWORD=changethispassword
+    volumes:
+      - /home/<CHANGE THIS ACCORDINGLY>/docker-data/postgres-data:/var/lib/postgresql/data
+

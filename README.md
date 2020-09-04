@@ -1,2 +1,2 @@
-This is a docker compose file which deploys a keycloak backed with a postgres database.
+This is a docker compose file which deploys a keycloak packed with a postgres database.
 
